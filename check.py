@@ -53,7 +53,7 @@ def main():
     session = requests.Session()
 
     # 登录，填写自己的用户名和密码
-    session = Login_dmzj.login(session, 'livun', '123abc')
+    session = Login_dmzj.login(session, '', '')
 
     # 读取我的订阅漫画
     r = check_rss(session)
