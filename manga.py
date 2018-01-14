@@ -94,9 +94,11 @@ def save(path, title, chapter, filename=None):
 # 批量下载图片,comic.paths为路劲集合，sleep为间隔时间，避免频繁读取
 def save_all(comic, sleep=1):
     if comic['paths'] and len(comic['paths']):
+        print('【{}】{}开始下载...'.format(comic['title'], comic['chapter']))
         for path in comic['paths']:
             save(path, comic['title'], comic['chapter'])
             time.sleep(sleep)  # 延迟执行
+        print('【{}】{}下载完毕'.format(comic['title'], comic['chapter']))
 
 
 # 主函数，通过漫画某一话地址，事实上是第一页图片所在地址开始下载本话所有图片
@@ -108,4 +110,4 @@ def comic_main(url):
     save_all(comic)
 
 
-comic_main('http://manhua.dmzj.com/yiquanchaoren/31216.shtml#@page=1')
+# comic_main('http://manhua.dmzj.com/yiquanchaoren/31216.shtml#@page=1')

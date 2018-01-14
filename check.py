@@ -1,6 +1,7 @@
 import requests
 import bs4
 from subprocess import call
+import manga  # 引入下载模块
 
 import login as Login_dmzj
 
@@ -24,7 +25,8 @@ def filter_html_content(response):
     item_list = []
     for item in content_li:
         title = item.h3.a.text  # 获取漫画标题
-        item_list.append({'title': title})
+        url = item.p.em.a['href']  # 获取漫画链接
+        item_list.append({'title': title, 'url': url})
     return item_list
 
 
@@ -51,13 +53,17 @@ def main():
     session = requests.Session()
 
     # 登录，填写自己的用户名和密码
-    session = Login_dmzj.login(session, '用户名', '密码')
+    session = Login_dmzj.login(session, 'livun', '123abc')
 
     # 读取我的订阅漫画
     r = check_rss(session)
 
+    comic_list = filter_html_content(r)
     # 过滤内容并提醒
-    notice(filter_html_content(r))
+    notice(comic_list)
 
+    # 开始下载漫画
+    for comic in comic_list:
+        manga.comic_main(comic['url'])
 
 main()
