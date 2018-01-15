@@ -1,9 +1,8 @@
-import requests
 import bs4
 from subprocess import call
 import manga  # 引入下载模块
 
-import login as Login_dmzj
+import login as login_dmzj
 
 
 # 读取我的订阅漫画
@@ -50,10 +49,8 @@ def notice(item_list=None):
 
 # 主函数
 def main():
-    session = requests.Session()
-
     # 登录，填写自己的用户名和密码
-    session = Login_dmzj.login(session, '', '')
+    session = login_dmzj.login('', '')
 
     # 读取我的订阅漫画
     r = check_rss(session)
@@ -66,4 +63,6 @@ def main():
     for comic in comic_list:
         manga.comic_main(comic['url'])
 
-main()
+
+if __name__ == '__main__':
+    main()
