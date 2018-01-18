@@ -24,8 +24,10 @@ def filter_html_content(response):
     item_list = []
     for item in content_li:
         title = item.h3.a.text  # 获取漫画标题
+        chapter = item.p.em.a.text # 获取哪一话¬
         url = item.p.em.a['href']  # 获取漫画链接
-        item_list.append({'title': title, 'url': url})
+        img = item.a.img['src']  # 获取漫画封面
+        item_list.append({'title': title, 'chapter': chapter, 'url': url, 'img': img})
     return item_list
 
 
@@ -47,10 +49,21 @@ def notice(item_list=None):
         call(["osascript", "-e", cmd])
 
 
-# 主函数
-def main():
+# 获取数据
+def get_my_rss(name, pas):
+    # 读取我的订阅漫画
+    return filter_html_content(check_rss(login_dmzj.login(name, pas)))
+
+
+def get_check():
+    rss_list = get_my_rss('livun', 'zzxxcc')
+    for index, item in enumerate(rss_list):
+        print(item)
+
+
+if __name__ == '__main__':
     # 登录，填写自己的用户名和密码
-    session = login_dmzj.login('', '')
+    session = login_dmzj.login('livun', 'zzxxcc')
 
     # 读取我的订阅漫画
     r = check_rss(session)
@@ -60,9 +73,5 @@ def main():
     notice(comic_list)
 
     # 开始下载漫画
-    for comic in comic_list:
-        manga.comic_main(comic['url'])
-
-
-if __name__ == '__main__':
-    main()
+    # for comic in comic_list:
+    #     manga.comic_main(comic['url'])
