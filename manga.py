@@ -101,8 +101,8 @@ def save_all(comic, sleep=1):
         print('【{}】{}下载完毕'.format(comic['title'], comic['chapter']))
 
 
-# 主函数，通过漫画某一话地址，事实上是第一页图片所在地址开始下载本话所有图片
-def comic_main(url):
+# 通过漫画某一话地址，事实上是第一页图片所在地址开始下载本话所有图片
+def download_comic(url):
     # 1.获取当前漫画页面的数据，并得到所有漫画信息，包含标题，话数，
     comic = page_spider(url)
 
@@ -110,4 +110,4 @@ def comic_main(url):
     save_all(comic)
 
 
-# comic_main('http://manhua.dmzj.com/yiquanchaoren/31216.shtml#@page=1')
+# download_comic('http://manhua.dmzj.com/yiquanchaoren/31216.shtml#@page=1')
